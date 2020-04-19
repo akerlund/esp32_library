@@ -86,3 +86,10 @@ Otherwise you can now compile the test with
 make
 ```
 
+## Configure include path
+Add these lines under the Include path section in the VS Code C/C++ extension so it knows where to look for the header files used in the hello_world example project:
+```
+~/esp/ESP8266_RTOS_SDK/components/**
+~/esp/ESP8266_RTOS_SDK/components/freertos/**
+~/esp/ESP8266_RTOS_SDK/components/freertos/port/esp8266/include/
+```
