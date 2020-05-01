@@ -12,17 +12,17 @@ The repository has several submodules which in turn also have submodules, hence 
 git clone --recursive https://github.com/akerlund/esp32_library
 ```
 
-## 3 Get the Toolchain
+## 2 Get and Compile the Toolchain
 
-Easy step would be to download the Linux 64 v5.2.0 from [here](https://dl.espressif.com/dl/xtensa-lx106-elf-linux64-1.22.0-100-ge567ec7-5.2.0.tar.gz). There are some instruction about how you can build **esp-open-sdk** yourself further down in this document. Place the extracted files in your desired folder. Include it in your path, for example
+There are some instructions about how you can build **esp-open-sdk** further down in this document. Include the build in your path, for example
 
 ```bash
-export PATH=$PATH:/home/erland/Documents/esp-open-sdk/xtensa-lx106-elf/bin
+export PATH=$PATH:/opt/xtensa-lx106-elf/bin
 ```
 
 This will only be valid in the virtual terminal you are currently working in. You can add it to your **.bashrc** file (in your home folder) so the path is visible in all new terminals.
 
-## 4 Install esp-tool
+## 3 Install esp-tool
 
 A Python-based, open source, platform independent, utility to communicate with the ROM bootloader in Espressif ESP8266 & ESP32 chips.
 
@@ -45,9 +45,9 @@ sudo adduser your_user_name dialout
 
 You must now log in and out again for it to take effect.
 
-## 2 Setup Your WiFi Password
+## 4 Setup Your WiFi Password for Your Projects
 
-To build any examples that use WiFi, create in the cloned folder
+To build any examples that use WiFi, create a file in the cloned folder:
 
 ```
 submodules/esp-open-rtos/include/private_ssid_config.h
@@ -60,21 +60,39 @@ and then define the two macros for your SSID and password to your WiFi network:
 #define WIFI_PASS "my secret password"
 ```
 
-## 3 Now make a test
+in that file.
+
+## 5 Now make a test
+
+To just compile you type
 
 ```
 make flash -j4 -C examples/mqtt_client
 ```
 
+If you want to upload the binary to the ESP after compilation you type
+
+```
+make flash -j4 -C examples/bmp180_i2c/ ESPPORT=/dev/ttyUSB0
+```
+
+You can observe the ESP's serial output like this:
+
+```
+screen /dev/ttyUSB0 115200
+```
+
 # Setup of the Mosquitto MQTT Broker
 
-Install is easy
+If you want to send messages between an ESP and a PC then using the MQTT protocol is a good method.
+Then you install Mosquitto, an MQTT broker, which clients send and receive messages from.
+The install is easy
 
 ```
 sudo apt install mosquitto
 ```
 
-Setup UFW - Uncomplicated Firewall
+Now you setup UFW - Uncomplicated Firewall
 
 ```
 sudo ufw allow 1883
@@ -96,22 +114,22 @@ tcp        0      0 0.0.0.0:1883            0.0.0.0:*               LISTEN      
 tcp6       0      0 :::1883                 :::*                    LISTEN      -
 ```
 
-Observe the ESP's serial output
+There are some example scripts in **/scripts** written in Python that show how to subscribe on topice from an MQTT broker.
 
-```
-screen /dev/ttyUSB0 115200
-```
 
 # Visual Studio Code
-## Configure include path
-Add these lines under the Include path section in the VS Code C/C++ extension so it knows where to look for the header files used in the hello_world example project:
+
+## Configure Include Path
+
+Add these lines under the *Include path* section in the VS Code C/C++ extension so it knows where to look for the header files used in the hello_world example project:
+
 ```
 ~/esp/ESP8266_RTOS_SDK/components/**
 ~/esp/ESP8266_RTOS_SDK/components/freertos/**
 ~/esp/ESP8266_RTOS_SDK/components/freertos/port/esp8266/include/
 ```
 
-# Manual build of esp-open-sdk
+# Manual Build of **esp-open-sdk**
 
 Install a lot of prerequisites:
 
@@ -136,9 +154,9 @@ cd esp-open-sdk
 make toolchain esptool libhal STANDALONE=n
 ```
 
-which took for ever but then I added the path to the /bin
+which took for ever. I placed my build in **/opt** and then I added the path to the **/bin** folder:
 
 ```bash
-export PATH=$PATH:/home/erland/Documents/esp-open-sdk/xtensa-lx106-elf/bin
+export PATH=$PATH:/opt/xtensa-lx106-elf/bin
 ```
-
+in my **.bashrc** file in my home folder.
