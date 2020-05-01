@@ -1,15 +1,17 @@
 # esp_library
 
-This repository contains projects for the ESP WiFi module that are based on https://github.com/SuperHouse/esp-open-rtos.
+This repository contains a project setup for the ESP WiFi module that are based on https://github.com/SuperHouse/esp-open-rtos. I have made this repository along with this documentation to make it easy to start coding with the ESP and hard to forget. The idea is to keep common functions in this repository, e.g., for MQTT protocol functions or peripheral software routines, which can be shared between ESP projects.
 
-The projects are in their own repositories and are included here as submodules. In order to pull down everything simply follow the following numbered steps.
+I will keep projects for the ESP in their own repositories and include them here as submodules. In that way I can get a cleaner structure and history.
+
+In order to pull down everything simply follow the following numbered steps.
 
 ## 1 Clone Repository
 
 The repository has several submodules which in turn also have submodules, hence you need to use the *--recursive* flag when you clone.
 
 ```
-git clone --recursive https://github.com/akerlund/esp32_library
+git clone --recursive https://github.com/akerlund/esp_library
 ```
 
 ## 2 Get and Compile the Toolchain
@@ -81,6 +83,25 @@ You can observe the ESP's serial output like this:
 ```
 screen /dev/ttyUSB0 115200
 ```
+
+## Create a New Project Folder
+
+Now you can create your own projects anywhere as long as their *Makefile* has the path to the **esp-open-rtos** folder.
+I have therefore yet another environment varible defined to that folder's path, for example:
+
+```
+export ESP_OPEN_RTOS=/home/$(whoami)/Documents/esp_library_master/submodules/esp-open-rtos
+```
+
+In my projects Makefiles I can include **common.mk** like this:
+
+```
+PROGRAM=BMP180_Reader
+EXTRA_COMPONENTS = extras/i2c extras/bmp180 extras/paho_mqtt_c
+include $(ESP_OPEN_RTOS)/common.mk
+```
+
+The above is an example of a fully functional Makefile for one project.
 
 # Setup of the Mosquitto MQTT Broker
 
