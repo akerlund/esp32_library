@@ -1,8 +1,8 @@
 # esp_library
 
-This repository contains a project setup for the ESP WiFi module that are based on https://github.com/SuperHouse/esp-open-rtos. I have made this repository along with this documentation to make it easy to start coding with the ESP and hard to forget. The idea is to keep common functions in this repository, e.g., for MQTT protocol functions or peripheral software routines, which can be shared between ESP projects.
+This repository contains a project setup for the ESP WiFi module that are based on https://github.com/SuperHouse/esp-open-rtos. This repository has been created together with this documentation to make it easy to start coding with the ESP and hard to forget. The idea is to keep common functions in this repository, e.g., for MQTT protocol functions or peripheral software routines, which can be shared between ESP projects.
 
-I will keep projects for the ESP in their own repositories and include them here as submodules. In that way I can get a cleaner structure and history.
+Projects for the ESP will be kept in their own repositories and included here as submodules so this repository can act like a library. In that way a cleaner work structure is achieved and history is preserved per project.
 
 In order to pull down everything simply follow the following numbered steps.
 
@@ -87,7 +87,7 @@ screen /dev/ttyUSB0 115200
 ## Create a New Project Folder
 
 Now you can create your own projects anywhere as long as their *Makefile* has the path to the **esp-open-rtos** folder.
-I have therefore yet another environment varible defined to that folder's path, for example:
+I have therefore another environment varible defined to that folder's path, for example:
 
 ```
 export ESP_OPEN_RTOS=/home/$(whoami)/Documents/esp_library_master/submodules/esp-open-rtos
@@ -135,7 +135,7 @@ tcp        0      0 0.0.0.0:1883            0.0.0.0:*               LISTEN      
 tcp6       0      0 :::1883                 :::*                    LISTEN      -
 ```
 
-There are some example scripts in **/scripts** written in Python that show how to subscribe on topice from an MQTT broker.
+There are some example scripts in **/scripts** written in Python that show how to subscribe on topics from an MQTT broker.
 
 
 # Visual Studio Code
@@ -160,7 +160,7 @@ sudo sudo apt-get install make unrar-free autoconf automake libtool gcc g++ gper
 git clone --recursive https://github.com/pfalcon/esp-open-sdk.git
 ```
 
-My bash is too new so I had to change line 193 at: esp-open-sdk/crosstool-NG/configure.ac
+My bash is too new, so I had to change line 193 at: esp-open-sdk/crosstool-NG/configure.ac
 like this:
 
 ```bash
@@ -175,7 +175,7 @@ cd esp-open-sdk
 make toolchain esptool libhal STANDALONE=n
 ```
 
-which took for ever. I placed my build in **/opt** and then I added the path to the **/bin** folder:
+which took around 20 minutes on a non-high-performance laptop. I placed my build in **/opt** and then I added the path to the **/bin** folder:
 
 ```bash
 export PATH=$PATH:/opt/xtensa-lx106-elf/bin
